@@ -12,8 +12,8 @@ print("Starting the network...")
 host = "pool.ntp.org"
 NTP_DELTA = 2208988800
 
-ssid = "Christina"
-password = "Bailo1206"
+ssid = ""
+password = ""
 
 def setTime():
     NTP_QUERY = bytearray(48)

@@ -1,5 +1,4 @@
-import socket
-import time
+import socket, time, gc
 from server.RouteParser import getRoute, favIcon
 from server.FileHandler import GEThandler
 from server.helpers.dateFormater import convertTime
@@ -51,55 +50,55 @@ class HttpServer:
             curDate = f'{convertTime(time.gmtime())}'
 
             # wait for connections
-            self._client_connection, self._client_address = self._serverSocket.accept()
+            try:
+                self._client_connection, self._client_address = self._serverSocket.accept()
+            
+                ######################################################################################
+                # verbose logging
+                if self._logging == True:
+                    print(f"{curDate} :: A connection was recieved from {self._client_address}")
+                ######################################################################################
 
-            ######################################################################################
-            # verbose logging
-            if self._logging == True:
-                print(f"{curDate} :: A connection was recieved from {self._client_address}")
-            ######################################################################################
+                # catch the incomming client request.
+                # Notes: using a local variable seems to increase reliabiltiy.
+                thisRequest = self._client_connection.recv(1024).decode()
+                self._request = thisRequest
 
-            # catch the incomming client request.
-            # Notes: using a local variable seems to increase reliabiltiy.
-            thisRequest = self._client_connection.recv(1024).decode()
-            self._request = thisRequest
+                # print(thisRequest)            
+                # getRoute parses the incoming request and returns a tuple that includes the request
+                # type and the route ex: ('GET','/favicon.ico')
+                request = getRoute(thisRequest)
+                ######################################################################################
+                # verbose logging
+                if self._logging == True:
+                    print(f"{curDate} : {self._request}")
+                ######################################################################################
 
-            # print(thisRequest)            
-            # getRoute parses the incoming request and returns a tuple that includes the request
-            # type and the route ex: ('GET','/favicon.ico')
-            request = getRoute(thisRequest)
-            ######################################################################################
-            # verbose logging
-            if self._logging == True:
-                print(f"{curDate} : {self._request}")
-            ######################################################################################
+                else:
 
-            else:
+                    # this check catched unregestered request such as favicon or css or files directly requested.
+                    # security needs to be implmented on this method so that only files in the static directory can 
+                    # accessed.
+                    if request != None and request[1] not in self._registeredRoutes:
+                        finalRes = GEThandler(request)
+                        self._client_connection.send(finalRes)    
 
-                # this check catched unregestered request such as favicon or css or files directly requested.
-                # security needs to be implmented on this method so that only files in the static directory can 
-                # accessed.
-                if request != None and request[1] not in self._registeredRoutes:
-                    finalRes = GEThandler(request)
-                    self._client_connection.send(finalRes)    
+                    elif request != None and request[1] != '/favicon.ico':
+                        if request[1] in self._registeredRoutes:
+                            if request[0] == "POST":
+                                self._response = self._registeredRoutes[request[1]](request[2])
+                            else:
+                                self._response =  self._registeredRoutes[request[1]]()
 
-                elif request != None and request[1] != '/favicon.ico':
-                    if request[1] in self._registeredRoutes:
-                        if request[0] == "POST":
-                            self._response = self._registeredRoutes[request[1]](request[2])
+                            if self._response == 'HTTP/1.0 404 NOT FOUND\n\nFile Not Found':
+                                print( f"WARNING: {curDate}, '{request[0]} {request[1]}' recieved from {self._client_address} No File exists."  )
+                            else:
+                                print(f"REQUEST: {curDate}: '{request[0]} {request[1]}' recieved from {self._client_address}")
                         else:
-                            print(request[0], request[1])
-                            self._response =  self._registeredRoutes[request[1]]()
-
-                        if self._response == 'HTTP/1.0 404 NOT FOUND\n\nFile Not Found':
-                            print( f"WARNING: {curDate}, '{request[0]} {request[1]}' recieved from {self._client_address} No File exists."  )
-                        else:
-                            print(f"REQUEST: {curDate}: '{request[0]} {request[1]}' recieved from {self._client_address}")
-                    else:
-                        self._response = 'HTTP/1.0 404 NOT FOUND\n\nRoute Not Found'
-                        print( f"WARNING: {curDate}, '{request[0]} {request[1]}' recieved from {self._client_address} No Route exists."  )
-                    
-                    self._client_connection.sendall(self._response.encode())
+                            self._response = 'HTTP/1.0 404 NOT FOUND\n\nRoute Not Found'
+                            print( f"WARNING: {curDate}, '{request[0]} {request[1]}' recieved from {self._client_address} No Route exists."  )
+                        
+                        self._client_connection.sendall(self._response.encode())
 
                 
                     
@@ -107,6 +106,10 @@ class HttpServer:
 
             # Send the response
             # self._client_connection.sendall(self._response.encode())
+            except:
+                print(f"ERROR: {curDate} Something went wrong with the client connection")
+                self._client_connection.close()
+
             self._client_connection.close()
 
     def close(self):

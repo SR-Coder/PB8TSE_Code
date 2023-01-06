@@ -3,10 +3,12 @@ from server.classes.ServerClass import HttpServer
 from server.ViewHelper import View, redirect, jsonify
 from server.controlers.main_controller import toggle, getValue, led
 from server.helpers import networkConnection
-import json
+import json, gc
 
 server = HttpServer("0.0.0.0", 80, False)
 
+
+gc.enable()
 
 # ADD ROUTES HERE -->
 # DISPLAY ROUTES

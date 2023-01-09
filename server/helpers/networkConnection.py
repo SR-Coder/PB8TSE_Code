@@ -3,8 +3,8 @@ import machine
 import socket
 import time
 import struct
-
 from machine import Pin
+from server import secrets
 
 
 print("Starting the network...")
@@ -12,8 +12,7 @@ print("Starting the network...")
 host = "pool.ntp.org"
 NTP_DELTA = 2208988800
 
-ssid = ""
-password = ""
+
 
 def setTime():
     NTP_QUERY = bytearray(48)
@@ -33,7 +32,7 @@ def setTime():
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
-wlan.connect(ssid,password)
+wlan.connect(secrets.SSID,secrets.NETPASS)
 
 
 # wait for connect

@@ -1,4 +1,4 @@
-import socket, time, gc
+import socket, time, gc, os
 from server.RouteParser import getRoute, favIcon
 from server.FileHandler import GEThandler
 from server.helpers.dateFormater import convertTime
@@ -14,6 +14,7 @@ class HttpServer:
         self._logging = verbose
         self._registeredRoutes = {}
         self._serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self._status = "run"
 
     # this decorator creates a list of all the registered function
     def route(self, *args):
@@ -42,11 +43,21 @@ class HttpServer:
             print(regall)
         return self._serverSocket
 
+    def setStatus(self, newStatus):
+        print("in set status")
+        if newStatus == None or newStatus == "":
+            return None
+        elif newStatus == "restart":
+            self._status = "restart"
+        elif newStatus == "shutdown":
+            self._status = "shutdown"
+        else:
+            return None
     
     # This defines the main control loop of the application.  
 
     def start(self):
-        while True:
+        while self._status == "run":
             curDate = f'{convertTime(time.gmtime())}'
 
             # wait for connections
@@ -111,6 +122,21 @@ class HttpServer:
                 self._client_connection.close()
 
             self._client_connection.close()
+        
+        if self._status == "restart":
+            for i in range(5,0,-1):
+                print(f"STATUS: Restarting in: {i} seconds!")
+                time.sleep(1)
+                # os.system('clear')
+            self.setStatus("run")
+            return self.start()
+        elif self._status == "shutdown":
+            for i in range(5,0,-1):
+                print(f"STATUS: Shutting down in: {i} seconds!")
+                time.sleep(1)
+                # os.system('clear')           
+            return None
+
 
     def close(self):
         self._serverSocket.close()

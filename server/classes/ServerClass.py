@@ -44,7 +44,7 @@ class HttpServer:
         return self._serverSocket
 
     def setStatus(self, newStatus):
-        print("in set status")
+        print("in set status", newStatus)
         if newStatus == None or newStatus == "":
             return None
         elif newStatus == "restart":

@@ -106,8 +106,8 @@ class HttpServer:
 
             # Send the response
             # self._client_connection.sendall(self._response.encode())
-            except:
-                print(f"ERROR: {curDate} Something went wrong with the client connection")
+            except Exception as e:
+                print(f"ERROR: {curDate}: {e}: Something went wrong with the client connection")
                 self._client_connection.close()
 
             self._client_connection.close()

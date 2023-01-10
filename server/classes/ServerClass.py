@@ -1,4 +1,4 @@
-import socket, time, gc, os
+import socket, time, gc, os, machine, sys
 from server.RouteParser import getRoute, favIcon
 from server.FileHandler import GEThandler
 from server.helpers.dateFormater import convertTime
@@ -128,8 +128,8 @@ class HttpServer:
                 print(f"STATUS: Restarting in: {i} seconds!")
                 time.sleep(1)
                 # os.system('clear')
-            self.setStatus("run")
-            return self.start()
+            
+            return machine.reset()
         elif self._status == "shutdown":
             for i in range(5,0,-1):
                 print(f"STATUS: Shutting down in: {i} seconds!")

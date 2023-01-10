@@ -36,15 +36,15 @@ def submitData(data):
         
     return redirect("Index", server)
 
-@server.route("/system/restart")
-def restart():
-    server.setStatus("restart")
-    print("here")
-    return redirect("Index", server)
+# @server.route("/system/restart")
+# def restart():
+#     server._status = "run"
+#     print("here")
+#     return redirect("Index", server)
 
-@server.route("system/shutdown")
+@server.route("/system/shutdown")
 def shutdown():
-    server.setStatus("shutdown")
+    server._status = "shutdown"
     return redirect("Index", server)
 
 # JSON DATA ROUTES UNTIL (REGEX IS FULLY IMPLEMENTED)

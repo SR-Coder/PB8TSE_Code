@@ -128,8 +128,8 @@ class HttpServer:
                 print(f"STATUS: Restarting in: {i} seconds!")
                 time.sleep(1)
                 # os.system('clear')
-            
-            return machine.reset()
+            machine.reset()
+            return None
         elif self._status == "shutdown":
             for i in range(5,0,-1):
                 print(f"STATUS: Shutting down in: {i} seconds!")

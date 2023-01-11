@@ -36,11 +36,11 @@ def submitData(data):
         
     return redirect("Index", server)
 
-# @server.route("/system/restart")
-# def restart():
-#     server._status = "run"
-#     print("here")
-#     return redirect("Index", server)
+@server.route("/system/restart")
+def restart():
+    server._status = "restart"
+    print("status set to restert")
+    return redirect("Index", server)
 
 @server.route("/system/shutdown")
 def shutdown():

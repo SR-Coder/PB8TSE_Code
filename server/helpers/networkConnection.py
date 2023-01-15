@@ -53,4 +53,4 @@ else:
     print('ip = ' + status[0])
 
 
-setTime()
+# setTime()

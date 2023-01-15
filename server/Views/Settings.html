@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Static/switchStyle.css">
+    <title>JCRL MX8 | Settings</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>JCRLabs Matrix Switch 8 | Beta</h1>
+            <div id="top-menu">
+                <a href="/switch">Home</a>
+                <p> | </p>
+                <a href="">Restart</a>
+                <p> | </p>
+                <a href="">Shutdown</a>
+            </div>
+        </header>
+        <div class="main">
+            <div class="set-sources">
+                <form action="/switch/setsources" method="post">
+                    <input type="text" name="sn1" id="sn1" placeholder="Source 1">
+                    <input type="text" name="sn2" id="sn2" placeholder="Source 2">
+                    <input type="text" name="sn3" id="sn3" placeholder="Source 3">
+                    <input type="text" name="sn4" id="sn4" placeholder="Source 4">
+                    <input type="text" name="sn5" id="sn5" placeholder="Source 5">
+                    <input type="text" name="sn6" id="sn6" placeholder="Source 6">
+                    <input type="text" name="sn7" id="sn7" placeholder="Source 7">
+                    <input type="text" name="sn8" id="sn8" placeholder="Source 8">
+                    <button type="submit">Update Source Labels</button>
+                </form>
+                <form action="/switch/setdest" method="post">
+                    <input type="text" name="dn1" id="dn1" placeholder="Dest 1">
+                    <input type="text" name="dn2" id="dn2" placeholder="Dest 2">
+                    <input type="text" name="dn3" id="dn3" placeholder="Dest 3">
+                    <input type="text" name="dn4" id="dn4" placeholder="Dest 4">
+                    <input type="text" name="dn5" id="dn5" placeholder="Dest 5">
+                    <input type="text" name="dn6" id="dn6" placeholder="Dest 6">
+                    <input type="text" name="dn7" id="dn7" placeholder="Dest 7">
+                    <input type="text" name="dn8" id="dn8" placeholder="Dest 8">
+                    <button type="submit">Update Dest Labels</button>
+                </form>
+                <form action="/switch/setnorm" method="post">
+                    <div class="radio-group">
+                        <input type="radio" name="norm1" id="fn1" value="0">
+                        <label for="norm1">Full Normal</label>
+                        <input type="radio" name="norm1" id="hn1" value="1">
+                        <label for="norm1">Half Normal Normal</label>
+                        <input type="radio" name="norm1" id="nn1" value="2">
+                        <label for="norm1">Not Normal Normal</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" name="norm2" id="fn2" value="0">
+                        <label for="norm2">Full Normal</label>
+                        <input type="radio" name="norm2" id="hn2" value="1">
+                        <label for="norm2">Half Normal Normal</label>
+                        <input type="radio" name="norm2" id="nn2" value="2">
+                        <label for="norm2">Not Normal Normal</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" name="norm3" id="fn3" value="0">
+                        <label for="norm3">Full Normal</label>
+                        <input type="radio" name="norm3" id="hn3" value="1">
+                        <label for="norm3">Half Normal Normal</label>
+                        <input type="radio" name="norm3" id="nn3" value="2">
+                        <label for="norm3">Not Normal Normal</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" name="norm4" id="fn4" value="0">
+                        <label for="norm4">Full Normal</label>
+                        <input type="radio" name="norm4" id="hn4" value="1">
+                        <label for="norm4">Half Normal Normal</label>
+                        <input type="radio" name="norm4" id="nn4" value="2">
+                        <label for="norm4">Not Normal Normal</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" name="norm5" id="fn5" value="0">
+                        <label for="norm5">Full Normal</label>
+                        <input type="radio" name="norm5" id="hn5" value="1">
+                        <label for="norm2">Half Normal Normal</label>
+                        <input type="radio" name="norm5" id="nn5" value="2">
+                        <label for="norm5">Not Normal Normal</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" name="norm6" id="fn6" value="0">
+                        <label for="norm6">Full Normal</label>
+                        <input type="radio" name="norm6" id="hn6" value="1">
+                        <label for="norm6">Half Normal Normal</label>
+                        <input type="radio" name="norm6" id="nn6" value="2">
+                        <label for="norm6">Not Normal Normal</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" name="norm7" id="fn7" value="0">
+                        <label for="norm7">Full Normal</label>
+                        <input type="radio" name="norm7" id="hn7" value="1">
+                        <label for="norm7">Half Normal Normal</label>
+                        <input type="radio" name="norm7" id="nn7" value="2">
+                        <label for="norm7">Not Normal Normal</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" name="norm8" id="fn8" value="0">
+                        <label for="norm8">Full Normal</label>
+                        <input type="radio" name="norm8" id="hn8" value="1">
+                        <label for="norm8">Half Normal Normal</label>
+                        <input type="radio" name="norm8" id="nn8" value="2">
+                        <label for="norm8">Not Normal Normal</label>
+                    </div>
+                    <button type="submit">Update Normals</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -24,6 +24,10 @@ def PostTest():
 def Switch():
     return View("Switch")
 
+@server.route('/switch/settings')
+def Settings():
+    return View("Settings")
+
 # ACTION ROUTES
 
 @server.route("/goback")

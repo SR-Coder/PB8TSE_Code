@@ -20,6 +20,10 @@ def Index():
 def PostTest():
     return View("PostTest")
 
+@server.route('/switch')
+def Switch():
+    return View("Switch")
+
 # ACTION ROUTES
 
 @server.route("/goback")

@@ -44,6 +44,11 @@ def submitData(data):
         
     return redirect("Index", server)
 
+@server.route("/settings/savesettings")
+def saveSettings(data):
+    print(data)
+    return redirect("Switch", server)
+
 @server.route("/system/restart")
 def restart():
     server._status = "restart"

@@ -76,6 +76,12 @@ def getSettingValues():
     temp = f.read()
     return ujson.dumps(temp)
 
+@server.route("/data/getconfig")
+def getConfig():
+    f = open("./server/database/config.json")
+    temp = f.read()
+    return ujson.dumps(temp)
+
 
 
 # SETUP AND START THE MAIN SERVER LOOP

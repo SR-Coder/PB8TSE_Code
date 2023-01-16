@@ -121,3 +121,16 @@ input, button{
 .radio-group > label{
     margin-right: 20px;
 } 
+
+#save-prompt{
+    background-color: rgb(32, 54, 66);
+    color: whitesmoke;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 45%;
+    border: 1px solid black;
+    padding: 10px;
+    transition: all 1s;
+}

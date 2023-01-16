@@ -1,0 +1,44 @@
+{
+    "default":{
+        "routing":{
+            "s1":[0],
+            "s2":[1],
+            "s3":[2],
+            "s4":[3],
+            "s5":[4],
+            "s6":[5],
+            "s7":[6],
+            "s8":[7]
+        },
+        "sources":{
+            "sn1":"Source 1",
+            "sn2":"Source 2",
+            "sn3":"Source 3",
+            "sn4":"Source 4",
+            "sn5":"Source 5",
+            "sn6":"Source 6",
+            "sn7":"Source 7",
+            "sn8":"Source 8"
+        },
+        "destinations":{
+            "dn1":"Dest 1",
+            "dn2":"Dest 2",
+            "dn3":"Dest 3",
+            "dn4":"Dest 4",
+            "dn5":"Dest 5",
+            "dn6":"Dest 6",
+            "dn7":"Dest 7",
+            "dn8":"Dest 8"
+        },
+        "normals":{
+            "norm1":0,
+            "norm2":0,
+            "norm3":0,
+            "norm4":0,
+            "norm5":0,
+            "norm6":0,
+            "norm7":0,
+            "norm8":0
+        }
+    } 
+}

@@ -72,7 +72,7 @@ class HttpServer:
 
                 # catch the incomming client request.
                 # Notes: using a local variable seems to increase reliabiltiy.
-                thisRequest = self._client_connection.recv(4096).decode()
+                thisRequest = self._client_connection.recv(8192).decode()
                 self._request = thisRequest
 
                 # print(thisRequest)            

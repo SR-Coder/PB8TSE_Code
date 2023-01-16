@@ -91,7 +91,7 @@ header{
 
 .form-contents{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 input, button{
@@ -105,20 +105,19 @@ input, button{
 .sources, .dest{
     display: flex;
     flex-direction: column;
-    width: 25%;
 } 
 
-.set-sources > form{
+/* .set-sources > form{
     text-align: center;
-}
+} */
 
 .radio-group{
     color: whitesmoke;
-    margin-top: 10px;
-    margin-bottom: 30px;
+    margin-top: 15px;
+    margin-bottom: 26px;
     /* width: 200px; */
 }
 
 .radio-group > label{
     margin-right: 20px;
-}
+} 

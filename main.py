@@ -3,6 +3,7 @@ from server.classes.ServerClass import HttpServer
 from server.ViewHelper import View, redirect, jsonify
 from server.controlers.main_controller import toggle, getValue, led
 from server.helpers import networkConnection
+from server.helpers.jsonSaver import saveJSON
 import json, gc, ujson
 
 server = HttpServer("0.0.0.0", 80, False)
@@ -46,17 +47,8 @@ def submitData(data):
 
 @server.route("/settings/savesettings")
 def saveSettings(data):
-    print(f"data: {data}")
-    for key in data:
-        temp = data[key].replace("+", " ")
-        print(temp)
-        data[key] = temp
-
-    json_object = ujson.dumps(data)
-    f = open("./server/database/data.txt", "w")
-    f.write(json_object)
-    f.close()
-    return redirect("Switch", server)
+    saveJSON(data)
+    return redirect("Settings", server)
 
 @server.route("/system/restart")
 def restart():

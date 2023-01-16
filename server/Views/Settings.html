@@ -23,8 +23,8 @@
         </header>
         <div class="main">
             <div class="set-sources">
-                <form action="/settings/savesettings" method="post">
-                    <div class="form-contents">
+                <div class="form-contents">
+                    <form action="/settings/savesettings" method="post">
                         <div class="sources">
                             <input type="text" name="sn1" id="sn1" placeholder="Source 1">
                             <input type="text" name="sn2" id="sn2" placeholder="Source 2">
@@ -35,7 +35,10 @@
                             <input type="text" name="sn7" id="sn7" placeholder="Source 7">
                             <input type="text" name="sn8" id="sn8" placeholder="Source 8">
                         </div>
-                        <div class="dest">                        
+                        <button type="submit">Update Sources</button>
+                    </form>
+                    <form action="/settings/savesettings" method="post">
+                        <div class="dest">
                             <input type="text" name="dn1" id="dn1" placeholder="Dest 1">
                             <input type="text" name="dn2" id="dn2" placeholder="Dest 2">
                             <input type="text" name="dn3" id="dn3" placeholder="Dest 3">
@@ -45,8 +48,10 @@
                             <input type="text" name="dn7" id="dn7" placeholder="Dest 7">
                             <input type="text" name="dn8" id="dn8" placeholder="Dest 8">
                         </div>
-                        
-                        <!-- <div class="norm">
+                        <button type="submit">Update Destinations</button>
+                    </form>
+                    <form action="/settings/savesettings" method="post">
+                        <div class="norm">
                             <div class="radio-group">
                                 <input type="radio" name="norm1" id="fn1" value="0">
                                 <label for="norm1">Full Normal</label>
@@ -111,14 +116,14 @@
                                 <input type="radio" name="norm8" id="nn8" value="2">
                                 <label for="norm8">Not Normal Normal</label>
                             </div>
-                        </div> -->
-                    </div>
-                    <button type="submit">Update Settings</button>
-                </form>
+                            <button type="submit">Update Normals</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-<script src="../Static/switchSettings.js"></script>
+    </div>
+    <script src="../Static/switchSettings.js"></script>
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-console.log("it worked!!");
+// console.log("it worked!!");
 
 let url = window.location.href;
 let domain = new URL(url);
@@ -10,7 +10,7 @@ fetch(apiStr)
     .then(res => res.json())
     .then(res => {
         let data = JSON.parse(res);
-        console.log(data);
+        // console.log(data);
         for(let key in data){
             let temp = document.getElementById(key);
             if(temp == null){
@@ -19,7 +19,7 @@ fetch(apiStr)
             } else {
                 temp.value = data[key];
             }
-            console.log(temp);
+            // console.log(temp);
         }
     })
 

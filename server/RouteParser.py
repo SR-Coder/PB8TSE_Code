@@ -14,7 +14,9 @@ def getRoute(request):
     requestRoute = head[0].split()[1]
     if requestType == 'POST':
         if head[len(head)-1] is not "":
+            print(head[len(head)-1])
             dataList = head[len(head)-1].split('&')
+
             for d in dataList:
                 temp = d.split('=')
                 data[f'{temp[0]}'] = temp[1]

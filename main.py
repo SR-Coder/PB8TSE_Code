@@ -3,7 +3,7 @@ from server.classes.ServerClass import HttpServer
 from server.ViewHelper import View, redirect, jsonify
 from server.controlers.main_controller import toggle, getValue, led
 from server.helpers import networkConnection
-import json, gc
+import json, gc, ujson
 
 server = HttpServer("0.0.0.0", 80, False)
 
@@ -46,7 +46,16 @@ def submitData(data):
 
 @server.route("/settings/savesettings")
 def saveSettings(data):
-    print(data)
+    print(f"data: {data}")
+    for key in data:
+        temp = data[key].replace("+", " ")
+        print(temp)
+        data[key] = temp
+
+    json_object = ujson.dumps(data)
+    f = open("./server/database/data.txt", "w")
+    f.write(json_object)
+    f.close()
     return redirect("Switch", server)
 
 @server.route("/system/restart")
@@ -68,9 +77,16 @@ def ledStatus():
         "ledStat":getValue(led)
     }
     return json.dumps(temp)
+
+@server.route("/data/getsettingvalues")
+def getSettingValues():
+    f = open("./server/database/data.txt")
+    temp = f.read()
+    return ujson.dumps(temp)
+
+
+
+# SETUP AND START THE MAIN SERVER LOOP
 server.setupServer()
-
-
-
 server.start()
 

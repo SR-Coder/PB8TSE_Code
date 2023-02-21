@@ -6,7 +6,35 @@ let domain = new URL(url);
 let apiStr = `http://${domain.hostname}/data/getconfig`;
 let currdata = null
 
-let selectElements = document.querySelectorAll('select');
+let selectElements = document.querySelectorAll('.dsel');
+
+const setSwitch = (data) => {
+    let currConf = data.currentConfig;
+    let routing = data.configs[currConf].routing;
+    let configs = data.configs;
+
+    let select = document.getElementById("config");
+    for(key in configs){
+        let opt = document.createElement("option");
+        opt.innerText = key;
+        opt.value = key;
+        console.log(key, currConf);
+        if(key == currConf){
+            opt.setAttribute('selected', true);
+            opt.selected = true;
+        }
+        select.appendChild(opt);
+    }
+
+    console.log(configs);
+
+    for(let i = 0; i < selectElements.length; i++){
+        let idx = `s${i+1}`;
+        selectElements[i].value = routing[idx];
+    }
+
+    console.log(currConf, routing, selectElements);
+}
 
 
 fetch(apiStr)
@@ -17,13 +45,14 @@ fetch(apiStr)
             console.log("Data succesfully captured");
         }
         currdata = data;
+        setSwitch(data);
     });
 
 function showData() {
     console.log(currdata);
 }
 
-const checkRouting = () =>{
+const showSaveBtn = () => {
     let container = document.querySelector(".container");
     let div = document.createElement('div');
     div.id = "save-prompt";
@@ -32,9 +61,12 @@ const checkRouting = () =>{
     button.innerText = "Save";
     div.appendChild(text);
     div.appendChild(button);
+    container.appendChild(div);
+}
 
-    let elements = document.querySelectorAll('select');
-    let routes = currdata.default.routing;
+const checkRouting = () =>{
+    let elements = document.querySelectorAll('.dsel');
+    let routes = currdata.configs[currdata.currentConfig].routing;
     let curRoutes = [];
     let selectedRoutes = [];
     for(key in routes){
@@ -43,10 +75,13 @@ const checkRouting = () =>{
     for(let i =0; i< elements.length; i++){
         selectedRoutes.push(parseInt(elements[i].value))
     }
+
+    console.log(curRoutes, selectedRoutes);
+
     for(let j=0; j<curRoutes.length; j++){
         if(curRoutes[j] != selectedRoutes[j]){
             console.log("Routing has changed");
-            container.appendChild(div);
+            showSaveBtn();
             return false
         }
     }

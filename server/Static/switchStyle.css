@@ -38,6 +38,12 @@ header{
     text-decoration: none;
 }
 
+#top-menu select{
+    background-color: rgb(40, 7, 7);
+    border-radius: 10px;
+    color: whitesmoke;
+}
+
 .switch{
     padding-top: 20px;
 

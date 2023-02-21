@@ -53,6 +53,32 @@ class HttpServer:
             self._status = "shutdown"
         else:
             return None
+
+    # Create a non blocking chunk recieving socket reading function
+    def recv_timeout(aSocket, timeout=2):
+        aSocket.setblocking(0)
+
+        all_data = []
+        data=''
+
+        begin = time.time()
+
+        while True:
+            if all_data and time.time()-begin > timeout:
+                break
+            elif time.time()-begin > timeout*2:
+                break
+
+            try:
+                data = aSocket.recv(8192)
+                if data:
+                    all_data.append(data)
+                    begin=time.time()
+                else:
+                    time.sleep(0.1)
+            except:
+                print("ERROR: something went wrong int rec_timeout")
+        return ''.join(all_data)
     
     # This defines the main control loop of the application.  
 

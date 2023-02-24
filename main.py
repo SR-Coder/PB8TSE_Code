@@ -34,24 +34,34 @@ def getReqType(data):
 
 def run_server():
     s = socket.socket()
-    # s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind(('0.0.0.0', 80))
-
     s.listen(1)
 
 
-    print("Running....")
+    print("Listening on: well we will work this out later")
 
+    # start looping forever
     while True:
-        
+        # open and accept all sockets because we basic
         cSock, cAddr = s.accept()
+        # set this connection to be non blocking not sure i need it
         cSock.setblocking(False)
+
+        # read in data to the buffer of the length _DATAFRAME
         req = cSock.read(_DATAFRAME)
         reqSize = None
+
+        #  if a valid request is found then
         if  req:
             head = req.decode('utf-8')
+
+            # determine the request type
             reqType = getReqType(head)
-            print(type(reqType), len(reqType))
+
+            # if the request is a 'POST' request search the header for the 
+            # 'Content-Length:' string and determine how many data frames 
+            # are needed to read in the rest of the request
             if reqType == 'POST':
                 bytesRemaining = getContentLength(head)
                 reqSize = bytesRemaining

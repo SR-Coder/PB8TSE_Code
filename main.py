@@ -1,90 +1,72 @@
 # main.py -- put your code here!
-from server.classes.ServerClass import HttpServer
-from server.ViewHelper import View, redirect, jsonify
-from server.controlers.main_controller import toggle, getValue, led
+# from server.classes.ServerClass import HttpServer
+# from server.ViewHelper import View, redirect, jsonify
+# from server.controlers.main_controller import toggle, getValue, led
 from server.helpers import networkConnection
-from server.helpers.jsonSaver import saveJSON
+# from server.helpers.jsonSaver import saveJSON
 import json, gc, ujson
+import socket, time, select, re, math
 
-server = HttpServer("0.0.0.0", 80, False)
+_DATAFRAME = 1024
+
+def reqHandler(req: str):
+    print("in reqHandler", req)
+    return '''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>SimpleServer</title><link rel="stylesheet" href="../Static/style.css"></head><body><div class="header"><h1>Welcome to Simple Server</h1><a href="/postTest">Try some post data</a></div><div class="main"><form action="/turnOn" method="POST"><button id="ledBtn">Turn Led On</button></form></div><script src="/Static/main.js"></script></body></html>'''
+
+def getContentLength(data):
+    dataArr = data.split('\r')
+    length = ""
+    for entry in dataArr:
+        if "Content-Length" in entry:
+            length = entry.split(': ')[1]
+            length = int(length)-_DATAFRAME
+            if length < 0:
+                return 0
+            else: return math.ceil(length/_DATAFRAME)
+    
+    return 0
+
+def getReqType(data):
+    dataArr = data.split('\r')
+    reqType = dataArr[0].split(' /')[0]
+    return reqType
+    
+
+def run_server():
+    s = socket.socket()
+    # s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    s.bind(('0.0.0.0', 80))
+
+    s.listen(1)
 
 
-gc.enable()
+    print("Running....")
 
-# ADD ROUTES HERE -->
-# DISPLAY ROUTES
-@server.route("/")
-def Index():
-    return View("Index")
-
-@server.route("/postTest")
-def PostTest():
-    return View("PostTest")
-
-@server.route('/switch')
-def Switch():
-    return View("Switch")
-
-@server.route('/switch/settings')
-def Settings():
-    return View("Settings")
-
-# ACTION ROUTES
-
-@server.route("/goback")
-def goBack():
-    return redirect("Index", server)
-
-@server.route("/turnOn")
-def turnOn(data):
-    toggle()
-    return redirect("Index", server)
-
-@server.route("/submitPostData")
-def submitData(data):
+    while True:
         
-    return redirect("Index", server)
-
-@server.route("/settings/savesettings")
-def saveSettings(data):
-    saveJSON(data)
-    return redirect("Settings", server)
-
-@server.route("/system/restart")
-def restart():
-    server._status = "restart"
-    print("status set to restert")
-    return redirect("Index", server)
-
-@server.route("/system/shutdown")
-def shutdown():
-    server._status = "shutdown"
-    return redirect("Index", server)
-
-# JSON DATA ROUTES UNTIL (REGEX IS FULLY IMPLEMENTED)
-
-@server.route("/data/ledStatus")
-def ledStatus():
-    temp = {
-        "ledStat":getValue(led)
-    }
-    return json.dumps(temp)
-
-@server.route("/data/getsettingvalues")
-def getSettingValues():
-    f = open("./server/database/data.txt")
-    temp = f.read()
-    return ujson.dumps(temp)
-
-@server.route("/data/getconfig")
-def getConfig():
-    f = open("./server/database/config.json")
-    temp = f.read()
-    return ujson.dumps(temp)
+        cSock, cAddr = s.accept()
+        cSock.setblocking(False)
+        req = cSock.read(_DATAFRAME)
+        reqSize = None
+        if  req:
+            head = req.decode('utf-8')
+            reqType = getReqType(head)
+            print(type(reqType), len(reqType))
+            if reqType == 'POST':
+                bytesRemaining = getContentLength(head)
+                reqSize = bytesRemaining
+                while bytesRemaining > 0:
+                    temp = cSock.read(_DATAFRAME)
+                    req += temp
+                    bytesRemaining -= 1
+            print("The payload size: ", reqSize)
+            res = reqHandler(req.decode('utf-8'))
+            cSock.sendall(res)
+        cSock.close()
 
 
 
-# SETUP AND START THE MAIN SERVER LOOP
-server.setupServer()
-server.start()
 
+
+
+run_server()
